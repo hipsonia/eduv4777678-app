@@ -1,7 +1,7 @@
 import streamlit as st
 import joblib
 
-pip install joblib
+
 
 # Load the trained model
 model = joblib.load('best_model_heart_disease_prediction.pkl')
