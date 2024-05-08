@@ -67,22 +67,14 @@ user_input = get_user_input()
 st.subheader("User Input:")
 st.write(user_input)
 
-# Prepare data for prediction
-input_df = pd.DataFrame([user_input])
-
-# Load a trained model
-# Replace this with your own model loading code
-# model = load_model("path_to_your_model")
-
-# Example using RandomForestClassifier for demonstration
-# Replace this with your own model and preprocessing steps
-model = RandomForestClassifier()  # Example model
-model.fit(X_train, y_train)  # Example training step
-
-# Predict function
-def predict(model, input_df):
-    prediction = model.predict(input_df)
-    return prediction
+# Make prediction
+if st.sidebar.button('Predict'):
+    input_data = [[age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]]
+    prediction = model.predict(input_data)
+    if prediction[0] == 1:
+        st.write('The patient is likely to have heart disease.')
+    else:
+        st.write('The patient is unlikely to have heart disease.')
 
 # Add a "Predict" button
 if st.sidebar.button("Predict"):
