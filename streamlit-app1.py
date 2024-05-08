@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from sklearn.preprocessing import LabelEncoder
+
 
 # Title of the application
 st.title("Heart Disease Prediction")
