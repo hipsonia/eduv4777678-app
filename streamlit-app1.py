@@ -9,7 +9,8 @@ st.title("Heart Disease Prediction")
 # Sidebar with user inputs
 st.sidebar.header("User Input Features")
 # Load the trained model
-model = print('best_model_heart_disease_prediction.pkl')
+joblib=1.4.3
+model = joblib.load('best_model_heart_disease_prediction.pkl')
 
 
 # Function to get user input
