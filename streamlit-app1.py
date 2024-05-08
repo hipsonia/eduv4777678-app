@@ -9,7 +9,7 @@ st.title("Heart Disease Prediction")
 # Sidebar with user inputs
 st.sidebar.header("User Input Features")
 # Load the trained model
-joblib=1.4.3
+joblib==1.4.3
 model = joblib.load('best_model_heart_disease_prediction.pkl')
 
 
