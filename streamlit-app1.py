@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import joblib
 
 
 # Title of the application
@@ -7,6 +8,9 @@ st.title("Heart Disease Prediction")
 
 # Sidebar with user inputs
 st.sidebar.header("User Input Features")
+# Load the trained model
+model = joblib.load('best_model_heart_disease_prediction.pkl')
+
 
 # Function to get user input
 def get_user_input():
@@ -69,7 +73,7 @@ st.write(user_input)
 # Make prediction
 if st.sidebar.button('Predict'):
     input_data = [['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach', 'exang', 'oldpeak', 'slope', 'ca', 'thal']]
-    prediction = predict(input_data)
+    prediction = model.predict(input_data)
     if prediction[0] == 1:
         st.write('The patient is likely to have heart disease.')
     else:
