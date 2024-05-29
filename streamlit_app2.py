@@ -47,3 +47,12 @@ user_input = get_user_input()
 # Display the user input
 st.subheader("User Input:")
 st.write(user_input)
+
+# Make prediction
+if st.sidebar.button('Predict'):
+    input_data = [['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach', 'exang', 'oldpeak', 'slope', 'ca', 'thal']]
+    prediction = model.predict(input_data)
+    if prediction[0] == 1:
+        st.write('The patient is likely to have heart disease.')
+    else:
+        st.write('The patient is unlikely to have heart disease.')
