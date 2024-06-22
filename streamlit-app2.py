@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 
 # Title of the application
 st.title("Heart Disease Prediction")
