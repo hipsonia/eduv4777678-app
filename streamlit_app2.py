@@ -1,7 +1,12 @@
 import streamlit as st
+import pandas as pd
+import pickle
 
 # Title of the application
 st.title("Heart Disease Prediction")
+
+# Load the model
+model = pickle.load(open("heart_disease_model.pkl", "rb"))
 
 # Sidebar with user inputs
 st.sidebar.header("User Input Features")
@@ -22,6 +27,16 @@ def get_user_input():
     ca = st.sidebar.selectbox("Number of Major Vessels Colored by Fluoroscopy", [0, 1, 2, 3])
     thal = st.sidebar.selectbox("Thalassemia", ["Normal", "Fixed Defect", "Reversible Defect"])
 
+
+     # Encode categorical variables
+    sex = 1 if sex == "Male" else 0
+    cp = ["Typical Angina", "Atypical Angina", "Non-anginal Pain", "Asymptomatic"].index(cp)
+    fbs = 1 if fbs == "True" else 0
+    restecg = ["Normal", "ST-T wave abnormality", "Left ventricular hypertrophy"].index(restecg)
+    exang = 1 if exang == "Yes" else 0
+    slope = ["Upsloping", "Flat", "Downsloping"].index(slope)
+    thal = ["Normal", "Fixed Defect", "Reversible Defect"].index(thal)
+    
     # Store the user input in a dictionary
     user_data = {
         "age": age,
