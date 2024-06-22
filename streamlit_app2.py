@@ -6,11 +6,7 @@ import pickle
 st.title("Heart Disease Prediction")
 
 # Load the model
-try:
-    model = pickle.load(open("heart_disease_model.pkl", "rb"))
-    st.sidebar.success("Model loaded successfully!")
-except Exception as e:
-    st.sidebar.error(f"Error loading model: {e}")
+ model = pickle.load(open("heart_disease_model.pkl", "rb"))
 
 # Sidebar with user inputs
 st.sidebar.header("User Input Features")
