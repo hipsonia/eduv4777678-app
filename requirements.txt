@@ -1,0 +1,4 @@
+1.pandas
+2.Streamlit
+3.skicit-learn
+4.pickle 
