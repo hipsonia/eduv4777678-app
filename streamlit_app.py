@@ -1,41 +1,76 @@
 import streamlit as st
+import pandas as pd
+import numpy as np
 
 
+# Title of the application
+st.title("Heart Disease Prediction")
 
+# Load the model
 
-# Load the trained model
-#model = joblib.load('best_model_heart_disease_prediction.pkl')
+# Sidebar with user inputs
+st.sidebar.header("User Input Features")
 
-# Define the layout and widgets
-st.title('Heart Disease Prediction')
-st.sidebar.header('Patient Details')
+# Function to get user input
+def get_user_input():
+    age = st.sidebar.slider("Age", 18, 100, 25)
+    sex = st.sidebar.selectbox("Sex", ["Male", "Female"])
+    cp = st.sidebar.selectbox("Chest Pain Type", ["Typical Angina", "Atypical Angina", "Non-anginal Pain", "Asymptomatic"])
+    trestbps = st.sidebar.slider("Resting Blood Pressure (mm Hg)", 90, 200, 120)
+    chol = st.sidebar.slider("Serum Cholesterol (mg/dl)", 100, 600, 200)
+    fbs = st.sidebar.selectbox("Fasting Blood Sugar > 120 mg/dl", ["True", "False"])
+    restecg = st.sidebar.selectbox("Resting Electrocardiographic Results", ["Normal", "ST-T wave abnormality", "Left ventricular hypertrophy"])
+    thalach = st.sidebar.slider("Maximum Heart Rate Achieved", 60, 220, 150)
+    exang = st.sidebar.selectbox("Exercise Induced Angina", ["Yes", "No"])
+    oldpeak = st.sidebar.slider("ST Depression Induced by Exercise", 0.0, 6.2, 0.0)
+    slope = st.sidebar.selectbox("Slope of the Peak Exercise ST Segment", ["Upsloping", "Flat", "Downsloping"])
+    ca = st.sidebar.selectbox("Number of Major Vessels Colored by Fluoroscopy", [0, 1, 2, 3])
+    thal = st.sidebar.selectbox("Thalassemia", ["Normal", "Fixed Defect", "Reversible Defect"])
 
-age = st.sidebar.number_input('Age', min_value=1, max_value=120, value=25)
-sex = st.sidebar.selectbox('Sex', ['Male', 'Female'])
-cp = st.sidebar.selectbox('Chest Pain Type', ['Typical Angina', 'Atypical Angina', 'Non-anginal Pain', 'Asymptomatic'])
-trestbps = st.sidebar.number_input('Resting Blood Pressure (mm Hg)', min_value=0, max_value=300, value=120)
-chol = st.sidebar.number_input('Cholesterol (mg/dl)', min_value=0, max_value=600, value=200)
-fbs = st.sidebar.selectbox('Fasting Blood Sugar > 120 mg/dl', ['No', 'Yes'])
-restecg = st.sidebar.selectbox('Resting Electrocardiographic Results', ['Normal', 'ST-T Wave Abnormality', 'Left Ventricular Hypertrophy'])
-thalach = st.sidebar.number_input('Maximum Heart Rate Achieved', min_value=0, max_value=300, value=150)
-exang = st.sidebar.selectbox('Exercise Induced Angina', ['No', 'Yes'])
-oldpeak = st.sidebar.number_input('ST Depression Induced by Exercise Relative to Rest', min_value=0.0, max_value=10.0, value=0.0)
-slope = st.sidebar.selectbox('Slope of the Peak Exercise ST Segment', ['Upsloping', 'Flat', 'Downsloping'])
-ca = st.sidebar.number_input('Number of Major Vessels Colored by Flourosopy', min_value=0, max_value=4, value=0)
-thal = st.sidebar.selectbox('Thalassemia', ['Normal', 'Fixed Defect', 'Reversible Defect'])
+    # Encode categorical variables
+    sex_encoded = 1 if sex == "Male" else 0
+    cp_encoded = ["Typical Angina", "Atypical Angina", "Non-anginal Pain", "Asymptomatic"].index(cp)
+    fbs_encoded = 1 if fbs == "True" else 0
+    restecg_encoded = ["Normal", "ST-T wave abnormality", "Left ventricular hypertrophy"].index(restecg)
+    exang_encoded = 1 if exang == "Yes" else 0
+    slope_encoded = ["Upsloping", "Flat", "Downsloping"].index(slope)
+    thal_encoded = ["Normal", "Fixed Defect", "Reversible Defect"].index(thal)
 
-# Convert categorical inputs to numerical
-sex = 1 if sex == 'Male' else 0
-fbs = 1 if fbs == 'Yes' else 0
-exang = 1 if exang == 'Yes' else 0
-slope = {'Upsloping': 0, 'Flat': 1, 'Downsloping': 2}[slope]
-thal = {'Normal': 0, 'Fixed Defect': 1, 'Reversible Defect': 2}[thal]
+    # Store the user input in a dictionary
+    user_data = {
+        "age": age,
+        "sex": sex_encoded,
+        "cp": cp_encoded,
+        "trestbps": trestbps,
+        "chol": chol,
+        "fbs": fbs_encoded,
+        "restecg": restecg_encoded,
+        "thalach": thalach,
+        "exang": exang_encoded,
+        "oldpeak": oldpeak,
+        "slope": slope_encoded,
+        "ca": ca,
+        "thal": thal_encoded
+    }
+
+    features = pd.DataFrame(user_data, index=[0])
+    return features
+
+# Get user input
+input_df = get_user_input()
+
+# Display the user input
+st.subheader("User Input:")
+st.write(input_df)
 
 # Make prediction
 if st.sidebar.button('Predict'):
-    input_data = [[age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]]
-    prediction = model.predict(input_data)
-    if prediction[0] == 1:
-        st.write('The patient is likely to have heart disease.')
-    else:
-        st.write('The patient is unlikely to have heart disease.')
+    try:
+        prediction = model.predict(input_df)
+        if prediction[0] == 1:
+            st.write('The patient is likely to have heart disease.')
+        else:
+            st.write('The patient is unlikely to have heart disease.')
+    except Exception as e:
+        st.error(f"Error making prediction: {e}")
+
