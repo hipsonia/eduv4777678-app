@@ -1,13 +1,22 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import joblib 
 
 
 # Title of the application
 st.title("Heart Disease Prediction")
 
-# Load the trained model
-model = joblib.load('best_model_heart_disease_prediction.pkl')
+# Load the model
+
+model = None
+try:
+    model = joblib.load('best_model_heart_disease_prediction.pkl')
+    st.sidebar.success("Model loaded successfully!")
+except FileNotFoundError:
+    st.sidebar.error("Model file not found. Please make sure 'best_model_heart_disease_prediction.pkl' is in the same directory.")
+except Exception as e:
+    st.sidebar.error(f"Error loading model: {e}")
 
   
 # Sidebar with user inputs
@@ -67,11 +76,14 @@ st.write(input_df)
 
 # Make prediction
 if st.sidebar.button('Predict'):
-    try:
-        prediction = model.predict(input_df)
-        if prediction[0] == 1:
-            st.write('The patient is likely to have heart disease.')
-        else:
-            st.write('The patient is unlikely to have heart disease.')
-    except Exception as e:
-        st.error(f"Error making prediction: {e}")
+    if model is not None:
+        try:
+            prediction = model.predict(input_df)
+            if prediction[0] == 1:
+                st.write('The patient is likely to have heart disease.')
+            else:
+                st.write('The patient is unlikely to have heart disease.')
+        except Exception as e:
+            st.error(f"Error making prediction: {e}")
+    else:
+        st.error("Model is not loaded. Please check the model file.")
