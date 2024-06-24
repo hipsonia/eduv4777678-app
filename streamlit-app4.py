@@ -7,16 +7,19 @@ import numpy as np
 # Title of the application
 st.title("Heart Disease Prediction")
 
-# Define features and target
-#X = df.drop(columns=["target"])
-#y = df["target"].apply(lambda x: 1 if x > 0 else 0)  # Binarize the target variable
+from sklearn.metrics import classification_report
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
 
-# Split dataset into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+x = df 
+y = df['target']
 
-# Train a RandomForestClassifier
-model = RandomForestClassifier(n_estimators=100, random_state=42)
-model.fit(X_train, y_train)
+X_train, X_test, y_train, y_test = train_test_split(X,y,test_size = 0.3, random_state = 42)
+
+from sklearn.linear_model import LogisticRegression
+
+model = LogisticRegression()
+model.fit(X_train,y_train)
   
 # Sidebar with user inputs
 st.sidebar.header("User Input Features")
