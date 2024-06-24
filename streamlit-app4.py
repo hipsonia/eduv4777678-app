@@ -6,6 +6,8 @@ import numpy as np
 # Title of the application
 st.title("Heart Disease Prediction")
 
+# Load the trained model
+model = joblib.load('best_model_heart_disease_prediction.pkl')
 
   
 # Sidebar with user inputs
