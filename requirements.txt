@@ -1,4 +1,0 @@
-pandas
-Streamlit
-skicit-learn
-
