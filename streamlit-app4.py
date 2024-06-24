@@ -8,8 +8,8 @@ import numpy as np
 st.title("Heart Disease Prediction")
 
 # Define features and target
-X = df.drop(columns=["target"])
-y = df["target"].apply(lambda x: 1 if x > 0 else 0)  # Binarize the target variable
+#X = df.drop(columns=["target"])
+#y = df["target"].apply(lambda x: 1 if x > 0 else 0)  # Binarize the target variable
 
 # Split dataset into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
