@@ -7,7 +7,16 @@ import numpy as np
 # Title of the application
 st.title("Heart Disease Prediction")
 
-# Load the model
+# Define features and target
+X = data.drop(columns=["target"]
+y = data["target"].apply(lambda x: 1 if x > 0 else 0)  # Binarize the target variable
+
+# Split dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train a RandomForestClassifier
+model = RandomForestClassifier(n_estimators=100, random_state=42)
+model.fit(X_train, y_train)
   
 # Sidebar with user inputs
 st.sidebar.header("User Input Features")
