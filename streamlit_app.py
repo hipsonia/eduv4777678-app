@@ -4,7 +4,7 @@ import streamlit as st
 
 
 # Load the trained model
-model = joblib.load('best_model_heart_disease_prediction.pkl')
+#model = joblib.load('best_model_heart_disease_prediction.pkl')
 
 # Define the layout and widgets
 st.title('Heart Disease Prediction')
